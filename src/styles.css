@@ -1,0 +1,304 @@
+:root {
+  --primary: #DD4444; /* Rojo principal */
+  --secondary: #F48080; /* Rojo suave */
+  --accent: #3AB795; /* Verde azulado */
+  --bg: #F6F1ED; /* Fondo general suave */
+  --surface: #FFFFFF; /* Fondos blancos para tarjetas/secciones */
+  --black: #121212; /* Negro suave */
+  --text: var(--black); /* Texto principal oscuro */
+  --text-h: #DD4444; /* Encabezados */
+  --text-muted: #5A5A5A; /* Texto secundario */
+  --border: rgba(244, 128, 128, 0.45); /* Borde suave */
+  --shadow: rgba(0, 0, 0, 0.08) 0 10px 30px -15px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #F48080; /* Rojo claro para texto en dark mode */
+    --text-h: #FFDCDC; /* Rosa claro para encabezados */
+    --bg: #194B4F; /* Verde oscuro para fondo */
+    --border: #DD4444; /* Rojo oscuro para bordes */
+    --accent: #3AB795; /* Mantener verde azulado */
+    --accent-bg: rgba(58, 183, 149, 0.15);
+    --social-bg: rgba(31, 32, 40, 0.5);
+    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-color: transparent;
+  color: var(--text);
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+}
+
+/* Estilos de páginas */
+.inicio,
+.donacion,
+.necesidades,
+.centros,
+.nosotros {
+  background-color: var(--surface);
+  min-height: calc(100vh - 250px);
+  padding: 40px 24px 24px;
+  flex: 1;
+  box-shadow: var(--shadow);
+  border-radius: 18px;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+/* Estilos del header */
+header {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+header h1 {
+  color: var(--primary);
+}
+
+header .nav-link,
+header .link-body-emphasis {
+  color: var(--text);
+}
+
+header .nav-link:hover,
+header .link-body-emphasis:hover {
+  color: var(--secondary);
+}
+
+/* Estilos del banner */
+.hero-banner {
+  max-width: 100%;
+  height: 420px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  background-image: url("https://revistauniversitaria.uc.cl/wp-content/uploads/2019/04/una_nacion_que_resiste.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+}
+
+.hero-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-banner-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.hero-banner-content h2 {
+  margin: 0 0 16px;
+  color: #FFDCDC;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.hero-banner-content p {
+  margin: 0;
+  color: #FFDCDC;
+  max-width: 700px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+/* Responsive: reducir altura en pantallas más pequeñas */
+@media (max-width: 768px) {
+  #carrusel-donaton {
+    height: 320px;
+  }
+}
+
+@media (max-width: 576px) {
+  #carrusel-donaton {
+    height: 250px;
+  }
+}
+
+/* FOOTER */
+
+/* Asegura que el footer se quede al fondo si hay poco contenido */
+footer {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+footer h2,
+footer h5 {
+  color: var(--primary);
+}
+
+footer p,
+footer li,
+footer a {
+  color: var(--text);
+}
+
+footer a:hover {
+  color: var(--accent) !important;
+}
+
+footer .nav-link {
+  padding: 0;
+}
+
+footer i {
+  color: var(--accent);
+}
+
+footer .row {
+  gap: 24px;
+}
+
+/* Estilos para botones Bootstrap */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.btn-outline-accent {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-outline-accent:hover,
+.btn-outline-accent:focus {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* Estilos de navegación */
+.navbar-nav .nav-link {
+  color: var(--text) !important;
+  font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--secondary) !important;
+}
+
+/* forcer container backgrounds transparent */
+.bg-light,
+.card,
+.container,
+.row {
+  background-color: transparent !important;
+}
+
+footer .nav-link:hover {
+  color: var(--accent) !important;
+}
+
+footer h5 {
+  color: var(--text-h);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Enlaces de footer */
+footer a {
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--accent) !important;
+}
