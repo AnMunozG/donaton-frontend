@@ -4,7 +4,7 @@ export default function Registro(){
             <h1>Registro de Socios</h1>
             <p className="mb-4" style={{ color: "var(--text-muted)" }}>
                 Únete a nuestra comunidad de donantes y haz una diferencia real en la vida de quienes más lo necesitan.
-                Al registrarte, podrás gestionar tus donaciones, recibir , participar en iniciativas exclusivas para socios.
+                Al registrarte, podrás gestionar tus donaciones, recibir reconocimientos por tus aportes, participar en iniciativas exclusivas para socios.
             </p>
             {/* RUT, Nombre completo, Correo electrónico, Contraseña, Confirmar contraseña */}
             <div className="row g-3">
