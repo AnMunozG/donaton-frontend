@@ -101,7 +101,10 @@ code,
 .donacion,
 .necesidades,
 .centros,
-.nosotros {
+.nosotros,
+.registro,
+.login,
+.backoffice {
   background-color: var(--surface);
   min-height: calc(100vh - 250px);
   padding: 40px 24px 24px;

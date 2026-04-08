@@ -14,8 +14,9 @@ import Centros from './paginas/Centros.jsx'
 import Donacion from './paginas/Donacion.jsx'
 import Necesidades from './paginas/Necesidades.jsx'
 import Registro from './paginas/Registro.jsx'
-import BackOfice from './paginas/BackOffice.jsx'
+import BackOffice from './paginas/BackOffice.jsx'
 import Importante from './assets/Importante.jsx'
+import Login from './paginas/Login.jsx'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -30,7 +31,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/donacion" element={<Donacion />} />
         <Route path="/necesidades" element={<Necesidades />} />
         <Route path="/registro" element={<Registro />} />
-        <Route path="/backoffice" element={<BackOfice />} />
+        <Route path="/dashboard" element={<BackOffice />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/222" element={<Importante />} />
         <Route path="*" element={<h1 className="text-center mt-5">404 - Página no encontrada</h1>} />
       </Routes>

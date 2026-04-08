@@ -45,10 +45,10 @@ export default function Inicio() {
         <p className="mb-4" style={{ color: "var(--text-muted)" }}>Un proceso simple, transparente y trazable de principio a fin.</p>
         <div className="row g-3">
           {[
-            { num: "1", icon: "bi-gift-fill", titulo: "Realizas tu donación", texto: "Registras el tipo de recurso, cantidad y datos del origen. Todo queda documentado en el sistema." },
-            { num: "2", icon: "bi-building-fill", titulo: "Asignación al centro", texto: "La plataforma asigna tu donación al centro de acopio más cercano a la zona de necesidad." },
-            { num: "3", icon: "bi-truck", titulo: "Logística y traslado", texto: "El equipo logístico de Donatón gestiona el transporte y la distribución a los damnificados." },
-            { num: "4", icon: "bi-check-circle-fill", titulo: "Confirmación de entrega", texto: "Recibirás confirmación cuando tu donación llegue al destino final." },
+            { num: "1", icon: "bi-gift-fill", titulo: "Realizas tu donación", texto: "Solo respondes un formulario corto con el tipo de recurso, cantidad, etc. Todo queda documentado en el sistema." },
+            { num: "2", icon: "bi-building-fill", titulo: "Asignación al centro", texto: "La plataforma asigna tu donación al centro de acopio que más necesita de tu donación." },
+            { num: "3", icon: "bi-truck", titulo: "Logística y traslado", texto: "El equipo logístico de Donatón gestiona el transporte y la distribución a los centros.El estado de tu donación está disponible para ti en todo momento." },
+            { num: "4", icon: "bi-check-circle-fill", titulo: "Confirmación de entrega", texto: "Te informaremos cuando tu donación llegue a aquellos que lo necesitan." },
           ].map((paso, i) => (
             <div key={i} className="col-12 col-md-6 col-lg-3">
               <div className="p-4 rounded-4 h-100 d-flex flex-column gap-2" style={{ border: "1.5px solid var(--border)", background: "var(--surface)" }}>

@@ -19,6 +19,7 @@ export default function Header(){
                 <div className="d-flex gap-2 flex-nowrap ms-md-4 mt-2 mt-md-0">
                     <Link to="/donacion" className="btn btn-outline-accent">Donar</Link>
                     <Link to="/registro" className="btn btn-primary">Hacerse socio</Link>
+                    <Link to="/login" className="btn btn-outline-secondary">Iniciar sesión</Link>
                 </div>
             </nav>
         </header>

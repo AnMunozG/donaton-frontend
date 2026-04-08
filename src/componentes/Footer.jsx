@@ -6,7 +6,6 @@ export default function Footer() {
         <footer className="py-5 border-top" style={{ backgroundColor: '#F5F3F0' }}>
             <div className="container">
                 <div className="row">
-                    {/* Sección 1: Logo y Eslogan */}
                     <div className="col-12 col-md-4 mb-4 mb-md-0">
                         <Link to="/" className="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
                             <DonatonLogo variante="pequeño" />
@@ -16,7 +15,6 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    {/* Sección 2: Enlaces Rápidos */}
                     <div className="col-6 col-md-2 mb-3">
                         <h5 className="fw-bold" style={{ color: '#DD4444' }}>Navegación</h5>
                         <ul className="nav flex-column">
@@ -27,7 +25,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Sección 3: Contacto */}
                     <div className="col-6 col-md-3 mb-3">
                         <h5 className="fw-bold" style={{ color: '#DD4444' }}>Contacto</h5>
                         <ul className="nav flex-column" style={{ color: '#194B4F' }}>
@@ -37,7 +34,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Sección 4: Redes Sociales */}
                     <div className="col-md-3">
                         <h5 className="fw-bold" style={{ color: '#DD4444' }}>Síguenos</h5>
                         <div className="d-flex gap-3 fs-4">
