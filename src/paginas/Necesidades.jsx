@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { centrosData } from "./Centros.jsx";
 
 const tiposRecurso = [
   "Alimentos no perecibles",
@@ -164,20 +165,25 @@ export default function Necesidades() {
                 </div>
               </div>
 
-              {/* Ubicación */}
+              {/* Centro de Acopio */}
               <div className="mb-3">
                 <label className="form-label fw-semibold">
-                  Ubicación geográfica
+                  Centro de acopio
                 </label>
-                <input
-                  type="text"
-                  name="ubicacion"
-                  className="form-control"
-                  placeholder="Sector, ciudad..."
-                  value={form.ubicacion}
+                <select
+                  name="centroAcopio"
+                  className="form-select"
+                  value={form.centroAcopio}
                   onChange={handleChange}
                   required
-                />
+                >
+                  <option value="">Selecciona...</option>
+                  {centrosData.map((centro) => (
+                    <option key={centro.id} value={centro.id}>
+                      {centro.nombre}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {/* Urgencia */}

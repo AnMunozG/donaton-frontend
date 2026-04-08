@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const centrosData = [
+export const centrosData = [
   {
     id: "CA-001", nombre: "Centro de Acopio Santiago Centro", region: "Metropolitana",
     direccion: "Av. Libertador Bernardo O'Higgins 1234, Santiago",

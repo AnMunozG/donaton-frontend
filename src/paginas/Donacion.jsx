@@ -100,8 +100,8 @@ export default function Donacion() {
 
               {/* RUT */}
               <div className="mb-3">
-                <label className="form-label fw-semibold">RUT</label>
-                <input type="text" name="origen" className="form-control" placeholder="12.345.678-9" value={form.origen} onChange={handleChange} required />
+                <label className="form-label fw-semibold">RUT (sin puntos ni guion)</label>
+                <input type="text" name="origen" className="form-control" placeholder="123456789" value={form.origen} onChange={handleChange} required />
               </div>
 
               {/* Tipo recurso */}
