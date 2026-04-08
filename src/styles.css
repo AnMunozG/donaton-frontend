@@ -1,22 +1,33 @@
+/* ── Variables ────────────────────────────────────────────── */
 :root {
-  --primary: #DD4444; /* Rojo principal */
-  --secondary: #F48080; /* Rojo suave */
-  --accent: #3AB795; /* Verde azulado */
-  --bg: #F6F1ED; /* Fondo general suave */
-  --surface: #FFFFFF; /* Fondos blancos para tarjetas/secciones */
-  --black: #121212; /* Negro suave */
-  --text: var(--black); /* Texto principal oscuro */
-  --text-h: #DD4444; /* Encabezados */
-  --text-muted: #5A5A5A; /* Texto secundario */
-  --border: rgba(244, 128, 128, 0.45); /* Borde suave */
-  --shadow: rgba(0, 0, 0, 0.08) 0 10px 30px -15px;
+  --primary:     #DD4444;
+  --secondary:   #F48080;
+  --accent:      #3AB795;
+  --bg:          #F6F1ED;
+  --surface:     #FFFFFF;
+  --black:       #121212;
+  --text:        var(--black);
+  --text-h:      #DD4444;
+  --text-muted:  #5A5A5A;
+  --border:      rgba(244, 128, 128, 0.45);
+  --shadow:      rgba(0, 0, 0, 0.08) 0 10px 30px -15px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans:    system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --mono:    ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
+  /* Tamaños de fuente fluidos */
+  --fs-h1:  clamp(1.8rem, 5vw, 3.5rem);
+  --fs-h2:  clamp(1.15rem, 2.5vw, 1.5rem);
+  --fs-body: clamp(0.9rem, 2vw, 1.125rem);
+
+  /* Espaciado de página fluido */
+  --page-px: clamp(1rem, 4vw, 2.5rem);
+  --page-py: clamp(1.5rem, 4vw, 2.5rem);
+
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: 0.15px;
   color-scheme: light dark;
   color: var(--text);
   background: var(--bg);
@@ -24,30 +35,31 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
+/* ── Modo Oscuro (Fondo Verde oscuro, me gusta más así) ────────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #F48080; /* Rojo claro para texto en dark mode */
-    --text-h: #FFDCDC; /* Rosa claro para encabezados */
-    --bg: #194B4F; /* Verde oscuro para fondo */
-    --border: #DD4444; /* Rojo oscuro para bordes */
-    --accent: #3AB795; /* Mantener verde azulado */
-    --accent-bg: rgba(58, 183, 149, 0.15);
-    --social-bg: rgba(31, 32, 40, 0.5);
-    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --text:      #F48080;
+    --text-h:    #FFDCDC;
+    --bg:        #194B4F;
+    --surface:   #1a3a3e;
+    --border:    #DD4444;
+    --accent:    #3AB795;
+    --shadow:    rgba(0,0,0,.4) 0 10px 15px -3px, rgba(0,0,0,.25) 0 4px 6px -2px;
   }
 }
+
+/* ── Reset base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--bg);
   color: var(--text);
+  font-family: var(--sans);
+  font-size: var(--fs-body);
 }
 
 #root {
@@ -55,48 +67,37 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   background-color: transparent;
   color: var(--text);
 }
 
-h1,
-h2 {
+/* ── Tipografía fluida ────────────────────────────────────── */
+h1, h2 {
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-h);
+  word-break: break-word;
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  font-size: var(--fs-h1);
+  letter-spacing: -0.03em;
+  margin: 1.2rem 0 0.6rem;
+  line-height: 1.1;
 }
 
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+  font-size: var(--fs-h2);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5rem;
 }
 
-p {
-  margin: 0;
-}
+p { margin: 0; }
 
-code,
-.counter {
-  font-family: var(--mono);
-}
+code, .counter { font-family: var(--mono); }
 
-/* Estilos de páginas */
+/* ── Páginas: contenedor principal ───────────────────────── */
 .inicio,
 .donacion,
 .necesidades,
@@ -106,29 +107,62 @@ code,
 .login,
 .backoffice {
   background-color: var(--surface);
-  min-height: calc(100vh - 250px);
-  padding: 40px 24px 24px;
+  min-height: calc(100vh - 220px);
+  padding: var(--page-py) var(--page-px);
   flex: 1;
   box-shadow: var(--shadow);
-  border-radius: 18px;
-  margin: 20px auto;
+  border-radius: clamp(8px, 2vw, 18px);
+  margin: clamp(8px, 2vw, 20px) auto;
+  width: 100%;
   max-width: 1200px;
+  /* Evita que se pegue a los bordes en móvil */
+  margin-left: clamp(8px, 2vw, auto);
+  margin-right: clamp(8px, 2vw, auto);
 }
 
-/* Estilos del header */
+/* ── HEADER ───────────────────────────────────────────────── */
 header {
   background-color: var(--surface);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--secondary);
   box-shadow: var(--shadow);
+  padding: 0.6rem 1rem;
+  /* Apilado en columna en móvil */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-header h1 {
-  color: var(--primary);
+/* Logo en el header */
+header .logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* Navegación interna del header */
+header nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+header .navbar-nav {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1rem;
+  margin-bottom: 0 !important;
 }
 
 header .nav-link,
 header .link-body-emphasis {
   color: var(--text);
+  font-size: 0.9rem;
+  padding: 0.35rem 0.55rem !important;
+  white-space: nowrap;
 }
 
 header .nav-link:hover,
@@ -136,26 +170,81 @@ header .link-body-emphasis:hover {
   color: var(--secondary);
 }
 
-/* Estilos del banner */
+/* Botones del header */
+header .header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+header .header-actions .btn {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.75rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.6rem 1.5rem;
+  }
+
+  header nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex: 1;
+    gap: 0;
+  }
+
+  header .navbar-nav {
+    flex-wrap: nowrap;
+  }
+
+  header .nav-link {
+    font-size: 0.95rem;
+  }
+
+  header .header-actions {
+    flex-wrap: nowrap;
+    margin-left: 1rem;
+  }
+
+  header .header-actions .btn {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.9rem;
+  }
+}
+
+@media (min-width: 992px) {
+  header .nav-link {
+    padding: 0.4rem 0.75rem !important;
+    font-size: 1rem;
+  }
+}
+
+/* ── HERO BANNER ──────────────────────────────────────────── */
 .hero-banner {
-  max-width: 100%;
-  height: 420px;
-  border-radius: 18px;
+  width: 100%;
+  height: clamp(220px, 45vw, 420px);
+  border-radius: clamp(8px, 2vw, 18px);
   box-shadow: var(--shadow);
   background-image: url("https://revistauniversitaria.uc.cl/wp-content/uploads/2019/04/una_nacion_que_resiste.jpg");
   background-size: cover;
   background-position: center;
   position: relative;
   overflow: hidden;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
 }
 
 .hero-banner::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .hero-banner-content {
@@ -167,77 +256,94 @@ header .link-body-emphasis:hover {
   justify-content: center;
   height: 100%;
   text-align: center;
-  padding: 0 24px;
+  padding: 1rem clamp(1rem, 5vw, 3rem);
+  gap: 0.5rem;
 }
 
 .hero-banner-content h2 {
-  margin: 0 0 16px;
   color: #FFDCDC;
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(1.1rem, 3.5vw, 2.5rem);
+  margin: 0 0 0.5rem;
+  text-shadow: 0 1px 4px rgba(0,0,0,.4);
 }
 
 .hero-banner-content p {
-  margin: 0;
   color: #FFDCDC;
-  max-width: 700px;
-  font-size: 1.05rem;
+  max-width: 650px;
+  font-size: clamp(0.82rem, 2vw, 1.05rem);
   line-height: 1.5;
+  text-shadow: 0 1px 3px rgba(0,0,0,.35);
 }
 
-/* Responsive: reducir altura en pantallas más pequeñas */
-@media (max-width: 768px) {
-  #carrusel-donaton {
-    height: 320px;
-  }
+.hero-banner-content .btn {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  padding: clamp(0.35rem, 1vw, 0.6rem) clamp(0.8rem, 2vw, 1.5rem);
 }
 
-@media (max-width: 576px) {
-  #carrusel-donaton {
-    height: 250px;
-  }
+@media (max-width: 400px) {
+  .hero-banner-content p { display: none; }
+  .hero-banner-content h2 { font-size: 1rem; }
 }
 
-/* FOOTER */
+/* ── TABLAS RESPONSIVE ────────────────────────────────────── */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
 
-/* Asegura que el footer se quede al fondo si hay poco contenido */
+.table {
+  min-width: 520px; /* fuerza scroll horizontal antes de romperse */
+  font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+}
+
+.table th,
+.table td {
+  padding: clamp(0.35rem, 1vw, 0.6rem) clamp(0.4rem, 1.2vw, 0.75rem);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* En tablets+ permitimos wrap */
+@media (min-width: 768px) {
+  .table th,
+  .table td { white-space: normal; }
+}
+
+/* ── FOOTER ───────────────────────────────────────────────── */
 footer {
   background-color: var(--surface);
   border-top: 1px solid var(--border);
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem);
 }
 
-footer h2,
+footer .row { gap: clamp(1rem, 3vw, 1.5rem); }
+
+footer h2, footer h5 { color: var(--primary); }
+
 footer h5 {
-  color: var(--primary);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-footer p,
-footer li,
-footer a {
-  color: var(--text);
+footer p, footer li, footer a { color: var(--text); }
+footer a:hover  { color: var(--accent) !important; }
+footer .nav-link { padding: 0; }
+footer i { color: var(--accent); }
+footer a { transition: color 0.25s ease; }
+
+footer .border-top-section {
+  border-top: 1px solid var(--border);
+  padding-top: clamp(1rem, 3vw, 1.5rem);
+  margin-top: clamp(1rem, 3vw, 1.5rem);
 }
 
-footer a:hover {
-  color: var(--accent) !important;
-}
-
-footer .nav-link {
-  padding: 0;
-}
-
-footer i {
-  color: var(--accent);
-}
-
-footer .row {
-  gap: 24px;
-}
-
-/* Estilos para botones Bootstrap */
+/* ── BOTONES ──────────────────────────────────────────────── */
 .btn-primary {
   background-color: var(--primary);
   border-color: var(--primary);
 }
-
 .btn-primary:hover,
 .btn-primary:focus {
   background-color: var(--secondary);
@@ -248,7 +354,6 @@ footer .row {
   color: var(--primary);
   border-color: var(--primary);
 }
-
 .btn-outline-primary:hover,
 .btn-outline-primary:focus {
   background-color: var(--primary);
@@ -260,7 +365,6 @@ footer .row {
   color: var(--accent);
   border-color: var(--accent);
 }
-
 .btn-outline-accent:hover,
 .btn-outline-accent:focus {
   background-color: var(--accent);
@@ -268,17 +372,15 @@ footer .row {
   color: white;
 }
 
-/* Estilos de navegación */
+/* ── NAVEGACIÓN ───────────────────────────────────────────── */
 .navbar-nav .nav-link {
   color: var(--text) !important;
   font-weight: 500;
 }
+.navbar-nav .nav-link:hover { color: var(--secondary) !important; }
 
-.navbar-nav .nav-link:hover {
-  color: var(--secondary) !important;
-}
+/* ── TARJETAS / CARDS ─────────────────────────────────────── */
 
-/* forcer container backgrounds transparent */
 .bg-light,
 .card,
 .container,
@@ -286,22 +388,126 @@ footer .row {
   background-color: transparent !important;
 }
 
-footer .nav-link:hover {
-  color: var(--accent) !important;
+/* Tarjetas de estadísticas, categorías, etc. */
+.stat-card,
+.category-card,
+.step-card {
+  border-radius: clamp(8px, 2vw, 16px);
+  padding: clamp(0.75rem, 2.5vw, 1.25rem);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  height: 100%;
+  transition: box-shadow 0.2s;
+}
+.stat-card:hover,
+.category-card:hover { box-shadow: var(--shadow); }
+
+/* ── FORMULARIOS ──────────────────────────────────────────── */
+.form-control,
+.form-select {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  border-color: var(--border);
+  border-radius: 8px;
+  background-color: var(--surface);
+  color: var(--text);
 }
 
-footer h5 {
-  color: var(--text-h);
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(221, 68, 68, 0.2);
 }
 
-/* Enlaces de footer */
-footer a {
-  transition: color 0.3s ease;
+.form-label {
+  font-size: clamp(0.82rem, 1.8vw, 0.95rem);
+  color: var(--text);
+  margin-bottom: 0.3rem;
 }
 
-footer a:hover {
-  color: var(--accent) !important;
+/* ── BADGES ───────────────────────────────────────────────── */
+.badge {
+  font-size: clamp(0.68rem, 1.5vw, 0.78rem);
+  padding: 0.3em 0.55em;
+  border-radius: 6px;
+}
+
+/* ── PROGRESS BAR ─────────────────────────────────────────── */
+.progress {
+  border-radius: 99px;
+  background: var(--border);
+}
+
+/* ── ALERTAS ──────────────────────────────────────────────── */
+.alert {
+  font-size: clamp(0.82rem, 1.8vw, 0.95rem);
+  border-radius: 10px;
+}
+
+/* ── CENTROS: panel de detalle ────────────────────────────── */
+@media (max-width: 991px) {
+  .centros .col-lg-5,
+  .centros .col-lg-7 {
+    width: 100%;
+  }
+}
+
+.registro .row,
+.login .row {
+  max-width: 560px;
+}
+
+.backoffice .table-responsive { margin-bottom: 1rem; }
+
+/* ── UTILIDADES RESPONSIVAS EXTRA ─────────────────────────── */
+
+@media (max-width: 575px) {
+  .fs-2 { font-size: 1.5rem !important; }
+  .fs-4 { font-size: 1.1rem !important; }
+
+
+  .stat-card { padding: 0.65rem; }
+
+  .table .hide-xs { display: none; }
+}
+
+@media (min-width: 576px) and (max-width: 991px) {
+  .hero-banner { height: clamp(260px, 38vw, 360px); }
+}
+
+/* Desktop grande */
+@media (min-width: 1200px) {
+  .inicio,
+  .donacion,
+  .necesidades,
+  .centros,
+  .nosotros,
+  .registro,
+  .login,
+  .backoffice {
+    padding: 2.5rem 3rem;
+  }
+}
+
+/* ── SVG del Logo: escalar bien ───────────────────────────── */
+header svg,
+footer svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Logo pequeño en header: limitar tamaño en móvil */
+header .logo-link svg {
+  width: clamp(160px, 40vw, 260px);
+  height: auto;
+}
+
+/* ── PRINT: ocultar nav y footer ─────────────────────────── */
+@media print {
+  header, footer, .header-actions { display: none !important; }
+  .inicio, .donacion, .necesidades, .centros, .nosotros {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 1rem;
+  }
 }
