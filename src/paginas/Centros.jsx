@@ -1,77 +1,62 @@
-import { useState } from "react";
-
-export const centrosData = [
-  {
-    id: "CA-001", nombre: "Centro de Acopio Santiago Centro", region: "Metropolitana",
-    direccion: "Av. Libertador Bernardo O'Higgins 1234, Santiago",
-    encargado: "Carolina Méndez", telefono: "+56 9 8765 4321",
-    capacidadTotal: 5000, capacidadUsada: 3200,
-    inventario: [
-      { tipo: "Alimentos", cantidad: "1.200 kg" },
-      { tipo: "Ropa y abrigo", cantidad: "8 cajas" },
-      { tipo: "Insumos médicos", cantidad: "45 unidades" },
-    ],
-    enviosPendientes: 3, estado: "Activo",
-  },
-  {
-    id: "CA-002", nombre: "Centro de Acopio Puente Alto", region: "Metropolitana",
-    direccion: "Calle Los Quillayes 456, Puente Alto",
-    encargado: "Roberto Soto", telefono: "+56 9 7654 3210",
-    capacidadTotal: 3000, capacidadUsada: 2800,
-    inventario: [
-      { tipo: "Alimentos", cantidad: "900 kg" },
-      { tipo: "Artículos de higiene", cantidad: "120 unidades" },
-    ],
-    enviosPendientes: 5, estado: "Capacidad crítica",
-  },
-  {
-    id: "CA-003", nombre: "Centro de Acopio Maipú", region: "Metropolitana",
-    direccion: "Av. Pajaritos 789, Maipú",
-    encargado: "Valentina Rojas", telefono: "+56 9 6543 2109",
-    capacidadTotal: 4000, capacidadUsada: 1500,
-    inventario: [
-      { tipo: "Ropa y abrigo", cantidad: "15 cajas" },
-      { tipo: "Utensilios del hogar", cantidad: "30 unidades" },
-    ],
-    enviosPendientes: 1, estado: "Activo",
-  },
-  {
-    id: "CA-004", nombre: "Centro de Acopio Valparaíso", region: "Valparaíso",
-    direccion: "Av. Argentina 321, Valparaíso",
-    encargado: "Felipe Araya", telefono: "+56 9 5432 1098",
-    capacidadTotal: 3500, capacidadUsada: 700,
-    inventario: [
-      { tipo: "Alimentos", cantidad: "300 kg" },
-      { tipo: "Insumos médicos", cantidad: "18 unidades" },
-    ],
-    enviosPendientes: 0, estado: "Activo",
-  },
-];
-
-const estadoBadge = {
-  "Activo": "success",
-  "Capacidad crítica": "danger",
-};
+import { useState, useEffect } from "react";
+import { getCentros, getNecesidades, urgenciaColorMap, estadoNecColorMap } from "../api.js";
+import Mapa from "../componentes/Mapa";
+import banner2Img from "../assets/Banner2.png";
 
 export default function Centros() {
+  const [centros, setCentros] = useState([]);
+  const [necesidades, setNecesidades] = useState([]);
   const [seleccionado, setSeleccionado] = useState(null);
   const [filtroRegion, setFiltroRegion] = useState("Todas");
 
-  const regiones = ["Todas", ...new Set(centrosData.map((c) => c.region))];
-  const centrosFiltrados = filtroRegion === "Todas" ? centrosData : centrosData.filter((c) => c.region === filtroRegion);
+  useEffect(() => {
+    getCentros().then(setCentros);
+    getNecesidades().then(setNecesidades);
+  }, []);
+
+  const regiones = ["Todas", ...new Set(centros.map((c) => c.region))];
+
+  const centrosFiltrados = filtroRegion === "Todas"
+    ? centros
+    : centros.filter((c) => c.region === filtroRegion);
+
+  const necesidadesDelCentro = seleccionado
+    ? necesidades.filter((n) => n.centroId === seleccionado.id)
+    : [];
 
   return (
     <div className="centros">
-      <h1>Centros de Acopio</h1>
-      <p className="mb-4" style={{ color: "var(--text-muted)" }}>
-        Administra los centros de acopio de Donatón: consulta su inventario actual, capacidad disponible y los envíos pendientes de cada uno.
-      </p>
 
-      {/* Filtro por región */}
+      {/* BANNER */}
+      <div className="position-relative rounded-4 overflow-hidden mb-4 d-flex align-items-center"
+        style={{ minHeight: "25vh", backgroundImage: `url(${banner2Img})`, backgroundSize: "cover" }}>
+        <div className="position-absolute top-0 start-0 w-100 h-100" style={{ background: "linear-gradient(135deg, rgba(18,18,18,0.85) 0%, rgba(26,58,62,0.7) 100%)" }}></div>
+
+        <div className="py-4 px-4" style={{ position: "relative", zIndex: 1 }}>
+          <span className="d-inline-block px-3 py-1 rounded-pill mb-2"
+            style={{ background: "rgba(221,68,68,0.2)", color: "#F48080", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "1px", border: "1px solid rgba(221,68,68,0.3)" }}>
+            {centros.length} CENTROS ACTIVOS
+          </span>
+
+          <h1 className="fw-bold mb-1 c-white" style={{ fontSize: "clamp(1.5rem,4vw,2.5rem)" }}>Centros de Acopio</h1>
+
+          <p className="m-0" style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.9rem" }}>
+            Consulta la capacidad y las necesidades asignadas a cada centro de acopio activo.
+          </p>
+        </div>
+      </div>
+
+      {/* FILTROS */}
       <div className="d-flex gap-2 flex-wrap mb-4">
         {regiones.map((r) => (
           <button key={r}
-            className={`btn btn-sm ${filtroRegion === r ? "btn-primary" : "btn-outline-primary"}`}
+            className="btn btn-sm"
+            style={{
+              background: filtroRegion === r ? "var(--primary)" : "transparent",
+              color: filtroRegion === r ? "#fff" : "var(--text)",
+              border: `1.5px solid ${filtroRegion === r ? "var(--primary)" : "var(--border)"}`,
+              borderRadius: 50, fontWeight: 500, padding: "0.3rem 1rem",
+            }}
             onClick={() => setFiltroRegion(r)}>
             {r}
           </button>
@@ -79,42 +64,57 @@ export default function Centros() {
       </div>
 
       <div className="row g-4">
-        {/* Lista de centros */}
-        <div className="col-12 col-lg-5">
-          <div className="d-flex flex-column gap-3">
+
+        {/* LISTA */}
+        <div className="col-12 col-lg-4">
+          <div className="d-flex flex-column gap-3 centros-list">
             {centrosFiltrados.map((c) => {
               const pct = Math.round((c.capacidadUsada / c.capacidadTotal) * 100);
-              const barColor = pct >= 85 ? "danger" : pct >= 60 ? "warning" : "success";
+              const barColor = pct >= 85 ? "#DD4444" : pct >= 60 ? "#FFC107" : "#3AB795";
+              const necesidadesCount = necesidades.filter((n) => n.centroId === c.id).length;
+
               return (
                 <div key={c.id}
-                  className="p-4 rounded-4"
+                  className="p-3 rounded-4 bg-surface"
                   style={{
                     border: `1.5px solid ${seleccionado?.id === c.id ? "var(--primary)" : "var(--border)"}`,
-                    background: "var(--surface)",
-                    cursor: "pointer",
-                    transition: "border-color 0.2s",
+                    cursor: "pointer", transition: "all 0.2s",
                   }}
                   onClick={() => setSeleccionado(seleccionado?.id === c.id ? null : c)}>
+
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <div>
-                      <span className="small fw-semibold" style={{ color: "var(--text-muted)" }}>{c.id}</span>
-                      <div className="fw-bold" style={{ color: "var(--text-h)" }}>{c.nombre}</div>
-                      <div className="small" style={{ color: "var(--text-muted)" }}>
-                        <i className="bi bi-geo-alt-fill me-1" style={{ color: "var(--accent)" }}></i>{c.region}
+                      <div className="d-flex align-items-center gap-2 mb-1">
+                        <span className="small" style={{ fontFamily: "var(--mono)", color: "var(--text-muted)" }}>{c.id}</span>
+                        <span className="d-inline-block px-2 py-0 rounded-pill"
+                          style={{ fontSize: "0.65rem", fontWeight: 600, background: barColor + "18", color: barColor }}>{pct}%</span>
+                      </div>
+
+                      <div className="fw-bold c-heading" style={{ fontSize: "0.95rem" }}>{c.nombre}</div>
+
+                      <div className="small c-muted">
+                        <i className="bi bi-geo-alt-fill me-1 c-accent"></i>{c.region}
                       </div>
                     </div>
-                    <span className={`badge bg-${estadoBadge[c.estado]}`}>{c.estado}</span>
+
+                    <div className="d-flex flex-column align-items-end gap-1" style={{ flexShrink: 0 }}>
+                      <span className={`badge ${c.estado === "Activo" ? "bg-success" : "bg-danger"}`}>{c.estado}</span>
+                      {necesidadesCount > 0 && (
+                        <span className="d-inline-flex align-items-center gap-1 px-2 py-0 rounded-pill"
+                          style={{ background: "rgba(255,193,7,0.15)", color: "#CC9900", fontSize: "0.65rem", fontWeight: 600 }}>
+                          <i className="bi bi-flag-fill"></i>{necesidadesCount} neces.
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="mb-1 small d-flex justify-content-between">
-                    <span>Capacidad usada</span>
-                    <span className="fw-semibold">{c.capacidadUsada.toLocaleString()} / {c.capacidadTotal.toLocaleString()} kg</span>
+
+                  <div className="small d-flex justify-content-between mb-1">
+                    <span className="c-muted">Capacidad usada</span>
+                    <span className="fw-semibold" style={{ fontSize: "0.78rem" }}>{c.capacidadUsada.toLocaleString()} / {c.capacidadTotal.toLocaleString()} kg</span>
                   </div>
-                  <div className="progress" style={{ height: 8 }}>
-                    <div className={`progress-bar bg-${barColor}`} style={{ width: `${pct}%` }}></div>
-                  </div>
-                  <div className="d-flex justify-content-between mt-2 small" style={{ color: "var(--text-muted)" }}>
-                    <span><i className="bi bi-truck me-1"></i>{c.enviosPendientes} envíos pendientes</span>
-                    <span>{pct}% ocupado</span>
+
+                  <div className="progress" style={{ height: 6 }}>
+                    <div className="progress-bar" style={{ width: `${pct}%`, background: barColor, borderRadius: 99 }}></div>
                   </div>
                 </div>
               );
@@ -122,76 +122,79 @@ export default function Centros() {
           </div>
         </div>
 
-        {/* Detalle del centro seleccionado */}
-        <div className="col-12 col-lg-7">
+        {/* MAPA + DETALLE */}
+        <div className="col-12 col-lg-8">
+          <div className="mb-3">
+            <Mapa centros={centrosFiltrados} seleccionado={seleccionado} onSelect={setSeleccionado} />
+          </div>
+
           {seleccionado ? (
-            <div className="p-4 rounded-4 h-100" style={{ border: "1.5px solid var(--border)", background: "var(--surface)" }}>
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h2 className="fw-bold fs-5 mb-0">{seleccionado.nombre}</h2>
-                <span className={`badge bg-${estadoBadge[seleccionado.estado]}`}>{seleccionado.estado}</span>
+            <div className="p-4 rounded-4 card-surface">
+              <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                  <span className="small" style={{ fontFamily: "var(--mono)", color: "var(--text-muted)" }}>{seleccionado.id}</span>
+
+                  <h2 className="fw-bold fs-5 mb-0 c-heading">{seleccionado.nombre}</h2>
+                </div>
+
+                <span className={`badge ${seleccionado.estado === "Activo" ? "bg-success" : "bg-danger"}`}>{seleccionado.estado}</span>
               </div>
 
               <div className="row g-3 mb-4">
                 <div className="col-12">
-                  <div className="small" style={{ color: "var(--text-muted)" }}>
-                    <i className="bi bi-geo-alt-fill me-1" style={{ color: "var(--accent)" }}></i>{seleccionado.direccion}
+                  <div className="small c-muted">
+                    <i className="bi bi-geo-alt-fill me-1 c-accent"></i>{seleccionado.direccion}
                   </div>
                 </div>
+
                 <div className="col-6">
-                  <div className="small" style={{ color: "var(--text-muted)" }}>
-                    <i className="bi bi-person-fill me-1" style={{ color: "var(--accent)" }}></i>Encargado/a
-                  </div>
+                  <div className="small c-muted"><i className="bi bi-person-fill me-1 c-accent"></i>Encargado/a</div>
                   <div className="fw-semibold">{seleccionado.encargado}</div>
                 </div>
+
                 <div className="col-6">
-                  <div className="small" style={{ color: "var(--text-muted)" }}>
-                    <i className="bi bi-telephone-fill me-1" style={{ color: "var(--accent)" }}></i>Contacto
-                  </div>
+                  <div className="small c-muted"><i className="bi bi-telephone-fill me-1 c-accent"></i>Contacto</div>
                   <div className="fw-semibold">{seleccionado.telefono}</div>
                 </div>
               </div>
 
-              <h3 className="fs-6 fw-bold mb-2" style={{ color: "var(--text-h)" }}>
-                <i className="bi bi-box-seam-fill me-2"></i>Inventario actual
+              <h3 className="fs-6 fw-bold mb-3 c-heading">
+                <i className="bi bi-flag-fill me-2 c-primary"></i>Necesidades asignadas
               </h3>
-              <table className="table table-sm mb-4">
-                <thead>
-                  <tr>
-                    <th>Tipo de recurso</th>
-                    <th>Cantidad disponible</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {seleccionado.inventario.map((item, i) => (
-                    <tr key={i}>
-                      <td>{item.tipo}</td>
-                      <td className="fw-semibold">{item.cantidad}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
 
-              <h3 className="fs-6 fw-bold mb-2" style={{ color: "var(--text-h)" }}>
-                <i className="bi bi-truck me-2"></i>Envíos pendientes
-              </h3>
-              {seleccionado.enviosPendientes === 0 ? (
-                <div className="alert alert-success py-2 small">No hay envíos pendientes para este centro.</div>
+              {necesidadesDelCentro.length === 0 ? (
+                <div className="p-3 rounded-3 d-flex align-items-center gap-2" style={{ background: "rgba(58,183,149,0.08)" }}>
+                  <i className="bi bi-check-circle-fill c-accent"></i>
+                  <span className="small c-muted">No hay necesidades asignadas a este centro actualmente.</span>
+                </div>
               ) : (
-                <div className="alert alert-warning py-2 small">
-                  <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                  Este centro tiene <strong>{seleccionado.enviosPendientes}</strong> envío(s) pendiente(s) de despacho.
+                <div className="d-flex flex-column gap-2">
+                  {necesidadesDelCentro.map((n) => (
+                    <div key={n.id} className="p-3 rounded-3 d-flex justify-content-between align-items-start flex-wrap gap-2 bg-page b-card">
+                      <div>
+                        <div className="fw-semibold small c-heading">{n.recurso} — {n.cantidad} {n.unidad}</div>
+                        <div className="small c-muted"><i className="bi bi-geo-alt me-1"></i>{n.ubicacion}</div>
+                        <div className="small c-muted"><i className="bi bi-person me-1"></i>{n.reportadoPor}</div>
+                      </div>
+
+                      <div className="d-flex gap-1 flex-wrap">
+                        <span className={`badge bg-${urgenciaColorMap[n.urgencia]}`}>{n.urgencia}</span>
+                        <span className={`badge bg-${estadoNecColorMap[n.estado]}`}>{n.estado}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
           ) : (
-            <div className="p-5 rounded-4 h-100 d-flex flex-column align-items-center justify-content-center text-center"
-              style={{ border: "1.5px dashed var(--border)", background: "var(--surface)" }}>
+            <div className="p-5 rounded-4 d-flex flex-column align-items-center justify-content-center text-center b-card-dashed bg-surface" style={{ minHeight: 200 }}>
               <i className="bi bi-building fs-1 mb-3" style={{ color: "var(--border)" }}></i>
-              <p style={{ color: "var(--text-muted)" }}>Selecciona un centro de acopio para ver su detalle, inventario y envíos pendientes.</p>
+              <p className="c-muted">Selecciona un centro en el mapa o en la lista para ver su detalle.</p>
             </div>
           )}
         </div>
       </div>
+
     </div>
   );
 }
